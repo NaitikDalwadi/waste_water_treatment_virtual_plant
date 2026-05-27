@@ -14,21 +14,21 @@ Run the following commands in VSCode terminal.
 
 ### Step 1 - Create the Virtual Environment
 ```powershell
-python -m venv venv
+python -m venv .venv
 ```
 ---
 ### Step 2 - Activate the Virtual Environment
 ```powershell
-.\venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1
 ```
 > **Note:** If you encounter an execution policy error, run the following first:
 > ```powershell
 > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 > ```
 ---
-### Step 3 - Install Required Libraries
+### Step 3 - Run .toml file
 ```powershell
-pip install asyncua opcua PyQt5
+pip install -e .
 ```
 ---
 ### Optional Steps:
