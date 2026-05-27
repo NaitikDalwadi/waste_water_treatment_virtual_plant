@@ -15,6 +15,8 @@ import asyncio
 import logging
 import queue
 from dataclasses import dataclass
+import json
+from pathlib import Path
 
 from asyncua import Client, Node, ua
 
@@ -28,31 +30,15 @@ logging.basicConfig(
 )
 log = logging.getLogger("VirtualPlant")
 
-# ─────────────────────────────────────────────────────────────────────────────
-# ① CONNECTION SETTINGS
-# ─────────────────────────────────────────────────────────────────────────────
-PLC_URL  = "opc.tcp://192.168.0.1:48400"
-OPC_USER = ""   # empty = anonymous (already working in UAExpert)
-OPC_PASS = ""
+CONFIG_PATH = Path(__file__).with_name("config.json")
 
-# ─────────────────────────────────────────────────────────────────────────────
-# ② NODE IDs  — exactly as configured in TIA Portal / seen in UAExpert
-#
-#   Actuators  → TIA Portal WRITES these, Python READS via subscription
-#   Sensors    → Python WRITES these, TIA Portal READS them
-# ─────────────────────────────────────────────────────────────────────────────
-NODE_IDS = {
-    # ── Actuators (BOOL) ────────────────────────────────────────────────────
-    "zulauf_ventil"          : 'ns=3;s="plant_io"."zulauf_ventil"',
-    "ablass_ventil"          : 'ns=3;s="plant_io"."ablass_ventil"',
-    "kompressor"             : 'ns=3;s="plant_io"."kompressor"',
+with CONFIG_PATH.open("r", encoding="utf-8") as f:
+    config = json.load(f)
 
-    # ── Sensors (REAL / Float) ───────────────────────────────────────────────
-    "abwasser_fuellstand"    : 'ns=3;s="plant_io"."abwasser_füllstand"',
-    "ammonium"               : 'ns=3;s="plant_io"."ammonium"',
-    "nitrat"                 : 'ns=3;s="plant_io"."nitrat"',
-    "sauerstoff_konzentration": 'ns=3;s="plant_io"."sauerstoff_konzentration"',
-}
+PLC_URL = config["PLC_URL"]
+OPC_USER = config.get("OPC_USER", "")
+OPC_PASS = config.get("OPC_PASS", "")
+NODE_IDS = config["NODE_IDS"]
 
 # Friendly names used throughout the code — must match NODE_IDS keys exactly
 ACTUATOR_KEYS = ("zulauf_ventil", "ablass_ventil", "kompressor")

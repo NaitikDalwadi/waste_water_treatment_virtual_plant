@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kombiblock-sbr-hmi"
+version = "0.1.0"
+description = "Industrial-grade P&ID HMI and OPC UA simulation for SBR wastewater treatment."
+readme = "README.md"
+authors = [
+    { name = "--" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "PyQt5>=5.15.0",
+    "asyncua>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+]
+
+# HIER IST DIE ÄNDERUNG:
+[tool.setuptools]
+py-modules = ["kombiblock_gui", "virtual_plant_new"]
+
+[tool.black]
+line-length = 88
