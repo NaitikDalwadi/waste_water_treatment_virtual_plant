@@ -41,7 +41,7 @@ pip list
 ```powershell
 deactivate
 ```
-Now, you can run the virtual plant GUI file in your system. 
+Now, you can run the kombiblock_gui.py file in your system after setting up the PLC as OPC UA server. 
 
 # PLC Configuration for OPC UA Communication
 
